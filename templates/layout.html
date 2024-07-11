@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Finance Tracker</title>
+    <title>Cheaply</title>
 </head>
 <body>
     <header>
         <nav>
-            <a href="{{ url_for('home') }}">Finance Tracker</a>
+            <a>Cheaply</a>
             {% if current_user.is_authenticated %}
             <a href="{{ url_for('home') }}">Home</a>
             <a href="{{ url_for('add_transaction') }}">Add Transaction</a>
+            <a href="{{ url_for('add_income') }}">Add Income</a>
             <a href="{{ url_for('logout') }}">Logout</a>
             {% else %}
             <a href="{{ url_for('login') }}">Login</a>

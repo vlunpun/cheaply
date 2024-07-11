@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Add Income</h1>
+<form method="POST" action="">
+    {{ form.hidden_tag() }}
+    <div>
+        {{ form.description.label }}<br>
+        {{ form.description }}<br>
+    </div>
+    <div>
+        {{ form.amount.label }}<br>
+        {{ form.amount }}<br>
+    </div>
+    <div>
+        {{ form.currency.label }}<br>
+        {{ form.currency }}<br>
+    </div>
+    <div>
+        {{ form.date.label }}<br>
+        {{ form.date }}<br>
+    </div>
+    <div>
+        {{ form.category.label }}<br>
+        {{ form.category }}<br>
+    </div>
+    <div>
+        {{ form.submit }}<br>
+    </div>
+</form>
+{% endblock %}

@@ -26,3 +26,18 @@ class TransactionForm(FlaskForm):
         ('Pets', 'Pets'), ('Miscellaneous', 'Miscellaneous')
         ], validators=[DataRequired()])
     submit = SubmitField('Add Transaction')
+
+class IncomeForm(FlaskForm):
+    description = StringField('Description', validators=[DataRequired()])
+    amount = DecimalField('Amount', validators=[DataRequired()])
+    currency = SelectField('Currency', choices=[('USD', 'USD'), ('EUR', 'EUR'), ('GBP', 'GBP')], validators=[DataRequired()])
+    date = DateField('Date', format='%Y-%m-%d', validators=[DataRequired()])
+    category = SelectField('Category', choices=[
+        ('Job', 'Job'), 
+        ('Business', 'Business'), 
+        ('Side Hustles', 'Side Hustles'), 
+        ('Investments', 'Investments'), 
+        ('Other', 'Other')
+    ], validators=[DataRequired()])
+    submit = SubmitField('Add Income')
+
