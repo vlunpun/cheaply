@@ -3,7 +3,7 @@ from forms import RegistrationForm, LoginForm, TransactionForm
 from models import db, login_manager, User, Transaction
 from flask_bcrypt import Bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
-from openai import OpenAI
+import openai
 import os
 
 # configure application objects
@@ -58,9 +58,12 @@ def logout():
 @app.route('/', methods=['GET'])
 @login_required
 def home():
+    print("test1")
     transactions = Transaction.query.filter_by(user_id=current_user.id).all()       #queries all the transactions for the current user
     total_balance = sum(t.amount for t in transactions)         #adds them up to display total amount in the home page
+    print("test2")
     return render_template('home.html', transactions=transactions, total_balance=total_balance)
+    
 
 @app.route('/add', methods=['GET', 'POST'])
 @login_required
@@ -84,25 +87,18 @@ def budget():
     return render_template('budget.html', budget=budget)
 
 def get_budget(transactions):
-
-    client = OpenAI(
-        api_key = os.getenv('OPENAI_API_KEY')
-    )
-
+    openai.api_key = os.getenv('OPENAI_API_KEY')
     transactions_str = "\n".join([f"{t['description']}: {t['amount']} {t['currency']}" for t in transactions])
-
-    response = client.chat.completions.create(
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
         messages=[
             {
-            "role": "user",
-            "content": f"Here are my monthly transactions:\n{transactions_str}\nCan you create a budget for me based on these transactions?",
-        
+                "role": "user",
+                "content": f"Here are my monthly transactions:\n{transactions_str}\nCan you create a budget for me based on these transactions?",
             }
-        ],
-        model="gpt-3.5-turbo",
+        ]
     )
-
-    budget = response.choices[0].text.strip()
+    budget = response.choices[0].message['content'].strip()
     return budget
 
 if __name__ == '__main__':
