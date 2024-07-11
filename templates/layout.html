@@ -1,34 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cheaply</title>
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
     <header>
-        <nav>
-            <a>Cheaply</a>
-            {% if current_user.is_authenticated %}
-            <a href="{{ url_for('home') }}">Home</a>
-            <a href="{{ url_for('add_transaction') }}">Add Transaction</a>
-            <a href="{{ url_for('add_income') }}">Add Income</a>
-            <a href="{{ url_for('logout') }}">Logout</a>
-            {% else %}
-            <a href="{{ url_for('login') }}">Login</a>
-            <a href="{{ url_for('register') }}">Register</a>
-            {% endif %}
-        </nav>
+      <nav>
+        <a class="logo">Cheaply</a>
+        <div class="nav-links">
+          {% if current_user.is_authenticated %}
+          <a href="{{ url_for('home') }}">Home</a>
+          <a href="{{ url_for('add_transaction') }}">Add Transaction</a>
+          <a href="{{ url_for('add_income') }}">Add Income</a>
+          <a href="{{ url_for('logout') }}">Logout</a>
+          {% else %}
+          <a href="{{ url_for('login') }}">Login</a>
+          <a href="{{ url_for('register') }}">Register</a>
+          {% endif %}
+        </div>
+      </nav>
     </header>
     <main>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div>{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-        {% block content %}{% endblock %}
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div>{{ message }}</div>
+      {% endfor %} {% endif %} {% endwith %} {% block content %}{% endblock %}
     </main>
-</body>
+  </body>
 </html>
