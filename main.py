@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, flash
+from flask import Flask, render_template, redirect, url_for, flash, request
 from forms import RegistrationForm, LoginForm, TransactionForm
 from models import db, login_manager, User, Transaction
 from flask_bcrypt import Bcrypt
@@ -66,14 +66,31 @@ def add_transaction():
     form = TransactionForm()
     if form.validate_on_submit():
         # sends form data to database
-        new_transaction = Transaction(description=form.description.data, amount=form.amount.data, currency=form.currency.data, user_id=current_user.id)
+        new_transaction = Transaction(
+            description=form.description.data,
+            amount=form.amount.data,
+            currency=form.currency.data,
+            date=form.date.data,
+            category=form.category.data,
+            user_id=current_user.id
+            )
         db.session.add(new_transaction)
         db.session.commit()
         flash('Transaction added successfully!', 'success')     #if valid then flash method
         return redirect(url_for('add_transaction'))         #redirect to same page to reset form entries
     return render_template('add_transaction.html', form=form)
 
+@app.route('/delete', methods=['POST'])
+@login_required
+def delete_transaction():
+    transaction_id = request.form.get('transaction_id')     # Get the transaction ID from the form data (the form data in the home.html)
+    transaction = Transaction.query.get(transaction_id)     # Query the transaction from the database
+    db.session.delete(transaction)      # Delete the transaction from the database
+    db.session.commit()     # Commit the changes to the database
+    flash('Transaction deleted successfully!', 'success')   # Flash message once deleted
+    return redirect(url_for('home'))    # Refresh the page
+
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()
+        db.create_all()         # This ensures the tables are created before the app starts
     app.run(debug=True)

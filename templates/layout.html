@@ -8,13 +8,14 @@
 <body>
     <header>
         <nav>
+            <a href="{{ url_for('home') }}">Finance Tracker</a>
             {% if current_user.is_authenticated %}
-                <a href="{{ url_for('home') }}">Home</a>
-                <a href="{{ url_for('add_transaction') }}">Add Transaction</a>
-                <a href="{{ url_for('logout') }}">Logout</a>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('add_transaction') }}">Add Transaction</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
             {% else %}
-                <a href="{{ url_for('login') }}">Login</a>
-                <a href="{{ url_for('register') }}">Register</a>
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('register') }}">Register</a>
             {% endif %}
         </nav>
     </header>
@@ -30,4 +31,3 @@
     </main>
 </body>
 </html>
-
