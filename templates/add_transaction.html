@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Add Transaction</h1>
+<form method="POST" action="">
+    {{ form.hidden_tag() }}
+    <div>
+        {{ form.description.label }}<br>
+        {{ form.description }}<br>
+    </div>
+    <div>
+        {{ form.amount.label }}<br>
+        {{ form.amount }}<br>
+    </div>
+    <div>
+        {{ form.currency.label }}<br>
+        {{ form.currency }}<br>
+    </div>
+    <div>
+        {{ form.submit }}
+    </div>
+</form>
+{% endblock %}
