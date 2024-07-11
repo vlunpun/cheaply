@@ -1,0 +1,154 @@
+/* General Styles */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5; /* Lighter background */
+  color: #333;
+}
+
+header {
+  background-color: #2c3e50; /* Darker shade of blue */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+nav {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav a {
+  color: #ecf0f1; /* Lighter text color */
+  text-decoration: none;
+  margin: 0 15px;
+  font-size: 18px;
+  transition: color 0.3s; /* Smooth transition */
+}
+
+nav a:hover {
+  color: #bdc3c7; /* Lighter color when hovered */
+}
+
+nav a.active {
+  background-color: #e74c3c; /* Red color for active link */
+  color: white;
+  padding: 10px 15px;
+  border-radius: 4px;
+}
+
+main {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Less prominent shadow */
+}
+
+/* Form Styles */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+form label {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+form input[type="text"],
+form input[type="number"],
+form input[type="password"],
+form input[type="email"] {
+  padding: 10px;
+  border: 1px solid #bdc3c7; /* Lighter border color */
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border-color 0.3s; /* Smooth transition */
+}
+
+form input[type="text"]:focus,
+form input[type="number"]:focus,
+form input[type="password"]:focus,
+form input[type="email"]:focus {
+  border-color: #2c3e50; /* Darker border color when focused */
+}
+
+form input[type="submit"] {
+  padding: 10px 20px;
+  background-color: #2c3e50; /* Darker background color */
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s; /* Smooth transition */
+}
+
+form input[type="submit"]:hover {
+  background-color: #34495e; /* Darker background color when hovered */
+}
+
+/* Messages Styles */
+.flash-message {
+  background-color: #ffcc00;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+/* Content Styles */
+h1,
+h2,
+h3 {
+  color: #2c3e50; /* Darker text color */
+  margin: 20px 0;
+}
+
+h1 {
+  font-size: 2em;
+  text-align: center;
+}
+
+.card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Less prominent shadow */
+  margin-bottom: 20px;
+  transition: box-shadow 0.3s; /* Smooth transition */
+}
+
+.card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* More prominent shadow when hovered */
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  background-color: #ecf0f1; /* Lighter background color */
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  transition: background-color 0.3s; /* Smooth transition */
+}
+
+li:hover {
+  background-color: #bdc3c7; /* Darker background color when hovered */
+}
