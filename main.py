@@ -94,7 +94,7 @@ def get_budget(transactions):
     response = client.chat.completions.create(
         messages=[
             {
-                "role": "user",
+            "role": "user",
             "content": f"Here are my monthly transactions:\n{transactions_str}\nCan you create a budget for me based on these transactions?",
         
             }
