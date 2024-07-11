@@ -3,7 +3,7 @@ from forms import RegistrationForm, LoginForm, TransactionForm
 from models import db, login_manager, User, Transaction
 from flask_bcrypt import Bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
-import openai
+from openai import OpenAI
 import os
 
 # configure application objects
@@ -76,20 +76,34 @@ def add_transaction():
     return render_template('add_transaction.html', form=form)
 
 @app.route('/budget', methods=['GET'])
-def budget(transactions):
-    openai.api_key = os.getenv('OPENAI_API_KEY')
+@login_required
+def budget():
+    transactions = Transaction.query.filter_by(user_id=current_user.id).all()
+    transactions_list = [{"description": t.description, "amount": t.amount, "currency": t.currency} for t in transactions]
+    budget = get_budget(transactions_list)
+    return render_template('budget.html', budget=budget)
 
-    response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[
-            {"role": "system", "content": "You are a budgeting assistant."},
-            {"role": "user", "content": f"Here are my monthly transactions: {transactions}. Can you create a budget for me based on these transactions?"}
-        ]
+def get_budget(transactions):
+
+    client = OpenAI(
+        api_key = os.getenv('OPENAI_API_KEY')
     )
 
-    budget = response['choices'][0]['message']['content']
-    print(budget)
-    return render_template('budget.html', budget=budget)
+    transactions_str = "\n".join([f"{t['description']}: {t['amount']} {t['currency']}" for t in transactions])
+
+    response = client.chat.completions.create(
+        messages=[
+            {
+                "role": "user",
+            "content": f"Here are my monthly transactions:\n{transactions_str}\nCan you create a budget for me based on these transactions?",
+        
+            }
+        ],
+        model="gpt-3.5-turbo",
+    )
+
+    budget = response.choices[0].text.strip()
+    return budget
 
 if __name__ == '__main__':
     with app.app_context():
