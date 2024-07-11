@@ -3,6 +3,8 @@ from forms import RegistrationForm, LoginForm, TransactionForm
 from models import db, login_manager, User, Transaction
 from flask_bcrypt import Bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
+import openai
+import os
 
 # configure application objects
 app = Flask(__name__)
@@ -72,6 +74,22 @@ def add_transaction():
         flash('Transaction added successfully!', 'success')     #if valid then flash method
         return redirect(url_for('add_transaction'))         #redirect to same page to reset form entries
     return render_template('add_transaction.html', form=form)
+
+@app.route('/budget', methods=['GET'])
+def budget(transactions):
+    openai.api_key = os.getenv('OPENAI_API_KEY')
+
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[
+            {"role": "system", "content": "You are a budgeting assistant."},
+            {"role": "user", "content": f"Here are my monthly transactions: {transactions}. Can you create a budget for me based on these transactions?"}
+        ]
+    )
+
+    budget = response['choices'][0]['message']['content']
+    print(budget)
+    return render_template('budget.html', budget=budget)
 
 if __name__ == '__main__':
     with app.app_context():
