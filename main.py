@@ -1,3 +1,4 @@
+import git
 from flask import Flask, render_template, redirect, url_for, flash, request
 from forms import RegistrationForm, LoginForm, TransactionForm, IncomeForm
 from models import db, login_manager, User, Transaction, Income
@@ -46,6 +47,16 @@ def login():
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')      #if invalid login then flash message
     return render_template('login.html', form=form)
+@app.route("/update_server", methods=['POST'])
+def webhook():
+    if request.method == 'POST':
+        repo = git.Repo('/home/cheaply/cheaply')
+        origin = repo.remotes.origin
+        origin.pull()
+        return 'Updated PythonAnywhere successfully', 200
+    else:
+        return 'Wrong event type', 400
+
 @app.route('/logout')
 @login_required
 def logout():
