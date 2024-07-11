@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, LoginManager
+import datetime
 
 """This python file contains classes that represent the structure of our databases. We use SQLAlchemy ORM in these classes to interact with the databses"""
 
@@ -21,4 +22,15 @@ class Transaction(db.Model):
     description = db.Column(db.String(100), nullable=False)
     amount = db.Column(db.Float, nullable=False)
     currency = db.Column(db.String(3), nullable=False)
+    date = db.Column(db.DateTime, nullable=False, default=datetime.datetime) 
+    category = db.Column(db.String(50), nullable=False)  
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)   #user_id is a foreignkey that references the User model by its id
+
+class Income(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.String(100), nullable=False)
+    amount = db.Column(db.Float, nullable=False)
+    currency = db.Column(db.String(3), nullable=False)
+    date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
+    category = db.Column(db.String(50), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

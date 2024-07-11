@@ -1,17 +1,94 @@
-{% extends "layout.html" %}
-
-{% block content %}
+{% extends "layout.html" %} {% block content %}
 <h1>Personal Finance Tracker</h1>
 <div>
-    <h2>Total Balance: ${{ total_balance }}</h2>
+  <h2>Savings: ${{ savings }}</h2>
 </div>
 <div>
-    <h3>Transactions</h3>
-    <ul>
-        {% for transaction in transactions %}
-            <li>{{ transaction.description }} - ${{ transaction.amount }} ({{ transaction.currency }})</li>
-        {% endfor %}
-    </ul>
+  <h3>Your Expenses</h3>
+  <h2>${{ total_expenses }}</h2>
 </div>
-{% endblock %}
-
+<div>
+  <h3>Your Income</h3>
+  <h2>${{ total_income }}</h2>
+</div>
+<div>
+  <h3>Transactions</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Amount</th>
+        <th>Currency</th>
+        <th>Date</th>
+        <th>Category</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for transaction in transactions %}
+      <tr>
+        <td>{{ transaction.description }}</td>
+        <td>${{ transaction.amount }}</td>
+        <td>{{ transaction.currency }}</td>
+        <td>{{ transaction.date.strftime('%Y-%m-%d') }}</td>
+        <td>{{ transaction.category }}</td>
+        <td>
+          <form method="POST" action="{{ url_for('delete_transaction') }}">
+            <input
+              type="hidden"
+              name="transaction_id"
+              value="{{ transaction.id }}"
+            />
+            <button type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<div>
+  <h3>Incomes</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Amount</th>
+        <th>Currency</th>
+        <th>Date</th>
+        <th>Category</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for income in incomes %}
+      <tr>
+        <td>{{ income.description }}</td>
+        <td>${{ income.amount }}</td>
+        <td>{{ income.currency }}</td>
+        <td>{{ income.date.strftime('%Y-%m-%d') }}</td>
+        <td>{{ income.category }}</td>
+        <td>
+          <form method="POST" action="{{ url_for('delete_income') }}">
+            <input type="hidden" name="income_id" value="{{ income.id }}" />
+            <button type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<div class="budget-button-container">
+  <form method="POST" action="{{ url_for('home') }}">
+    <button type="submit" name="action" value="get_budget" class="btn-small">
+      Get Personalized Budget
+    </button>
+  </form>
+</div>
+{% if budget %}
+<div>
+  <h3>Your Personalized Budget</h3>
+  <p>{{ budget }}</p>
+</div>
+{% endif %} {% endblock %}
