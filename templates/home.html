@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Personal Finance Tracker</h1>
+<div>
+    <h2>Total Balance: ${{ total_balance }}</h2>
+</div>
+<div>
+    <h3>Transactions</h3>
+    <ul>
+        {% for transaction in transactions %}
+            <li>{{ transaction.description }} - ${{ transaction.amount }} ({{ transaction.currency }})</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+
